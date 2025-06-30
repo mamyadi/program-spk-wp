@@ -1,26 +1,93 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import "./App.css";
 
-function App() {
+// Components
+import Navbar from "./components/Navbar";
+import Login from "./components/Login";
+import Criteria from "./components/Criteria";
+import Alternatives from "./components/Alternatives";
+import Calculation from "./components/Calculation";
+import NotFound from "./components/NotFound";
+
+// Context
+import { AuthProvider, useAuth } from "./context/AuthContext";
+
+// Protected Route component
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { isAuthenticated } = useAuth();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <>{children}</>;
+};
+
+const AppContent = () => {
+  const { isAuthenticated } = useAuth();
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {isAuthenticated && <Navbar />}
+      <div
+        className={`container ${
+          !isAuthenticated ? "p-0 m-0 container-fluid" : "mt-4"
+        }`}
+      >
+        <Routes>
+          <Route
+            path="/login"
+            element={isAuthenticated ? <Navigate to="/" /> : <Login />}
+          />
+
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Calculation />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/criteria"
+            element={
+              <ProtectedRoute>
+                <Criteria />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/alternatives"
+            element={
+              <ProtectedRoute>
+                <Alternatives />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
     </div>
   );
-}
+};
+
+const App = () => {
+  return (
+    <AuthProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </AuthProvider>
+  );
+};
 
 export default App;
