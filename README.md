@@ -30,10 +30,10 @@ SPK-WP adalah sistem pendukung keputusan berbasis web yang mengimplementasikan m
 ### Langkah 1: Persiapan Database
 
 1. Buat database MySQL baru dengan nama `spk_wp`
-2. Import skema database dari file `server/database.sql`:
+2. Import skema database dari file `server/spk_wp.sql`:
 
 ```bash
-mysql -u username -p spk_wp < server/database.sql
+mysql -u username -p spk_wp < server/spk_wp.sql
 ```
 
 ### Langkah 2: Konfigurasi Server
