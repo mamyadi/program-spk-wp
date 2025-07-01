@@ -12,13 +12,8 @@ import {
 interface Criterion {
   id: number;
   code: string;
-  name: string;                            <button
-                              className="btn btn-sm btn-danger ms-2"
-                              onClick={() => handleShowDeleteModal(alternative.id)}
-                              title="Hapus"
-                            >
-                              <FontAwesomeIcon icon={faTrash} />
-                            </button>ght: number;
+  name: string;
+  weight: number;
   type: "benefit" | "cost";
 }
 
@@ -43,7 +38,9 @@ const Alternatives: React.FC = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [alternativeToDelete, setAlternativeToDelete] = useState<number | null>(null);
+  const [alternativeToDelete, setAlternativeToDelete] = useState<number | null>(
+    null
+  );
   const [formMode, setFormMode] = useState<"add" | "edit">("add");
   const [formData, setFormData] = useState<{
     code: string;
@@ -238,9 +235,11 @@ const Alternatives: React.FC = () => {
 
   const handleDelete = async () => {
     if (alternativeToDelete === null) return;
-    
+
     try {
-      await axios.delete(`http://localhost:5000/api/alternatives/${alternativeToDelete}`);
+      await axios.delete(
+        `http://localhost:5000/api/alternatives/${alternativeToDelete}`
+      );
       // Close modal and refresh data
       setShowDeleteModal(false);
       setAlternativeToDelete(null);
@@ -337,7 +336,9 @@ const Alternatives: React.FC = () => {
                             </button>
                             <button
                               className="btn btn-sm btn-outline-danger"
-                              onClick={() => handleShowDeleteModal(alternative.id)}
+                              onClick={() =>
+                                handleShowDeleteModal(alternative.id)
+                              }
                               title="Hapus"
                             >
                               <FontAwesomeIcon icon={faTrash} />
@@ -358,18 +359,21 @@ const Alternatives: React.FC = () => {
       {showModal && (
         <div
           className="modal fade show"
-          style={{ 
-            display: "block", 
-            backgroundColor: "rgba(0,0,0,0.5)"
+          style={{
+            display: "block",
+            backgroundColor: "rgba(0,0,0,0.5)",
           }}
         >
-          <div className="modal-dialog modal-lg" style={{ 
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            minHeight: "calc(100vh - 60px)",
-            margin: "30px auto"
-          }}>
+          <div
+            className="modal-dialog modal-lg"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              minHeight: "calc(100vh - 60px)",
+              margin: "30px auto",
+            }}
+          >
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">
@@ -472,18 +476,21 @@ const Alternatives: React.FC = () => {
       {showDeleteModal && (
         <div
           className="modal fade show"
-          style={{ 
-            display: "block", 
-            backgroundColor: "rgba(0,0,0,0.5)"
+          style={{
+            display: "block",
+            backgroundColor: "rgba(0,0,0,0.5)",
           }}
         >
-          <div className="modal-dialog" style={{ 
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            minHeight: "calc(100vh - 60px)",
-            margin: "30px auto"
-          }}>
+          <div
+            className="modal-dialog"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              minHeight: "calc(100vh - 60px)",
+              margin: "30px auto",
+            }}
+          >
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Konfirmasi Hapus</h5>
