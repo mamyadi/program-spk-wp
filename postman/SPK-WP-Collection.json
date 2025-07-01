@@ -1,0 +1,388 @@
+{
+  "info": {
+    "_postman_id": "dde7b550-3400-4b17-85e4-4c87cfdbc8d3",
+    "name": "SPK-WP API",
+    "description": "API collection untuk Sistem Pendukung Keputusan dengan metode Weighted Product",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "description": "Endpoint untuk autentikasi",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"{{username}}\",\n    \"password\": \"{{password}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "login"]
+            },
+            "description": "Endpoint untuk login dan mendapatkan token JWT"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Criteria",
+      "description": "Endpoints untuk mengelola kriteria",
+      "item": [
+        {
+          "name": "Get All Criteria",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/criteria",
+              "host": ["{{base_url}}"],
+              "path": ["api", "criteria"]
+            },
+            "description": "Mendapatkan semua kriteria"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Criterion by ID",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/criteria/{{criterion_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "criteria", "{{criterion_id}}"]
+            },
+            "description": "Mendapatkan kriteria berdasarkan ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Criterion",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"code\": \"C1\",\n    \"name\": \"Harga\",\n    \"weight\": 0.4,\n    \"type\": \"cost\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/criteria",
+              "host": ["{{base_url}}"],
+              "path": ["api", "criteria"]
+            },
+            "description": "Membuat kriteria baru"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Criterion",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"code\": \"C1\",\n    \"name\": \"Harga Update\",\n    \"weight\": 0.3,\n    \"type\": \"cost\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/criteria/{{criterion_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "criteria", "{{criterion_id}}"]
+            },
+            "description": "Memperbarui kriteria berdasarkan ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Criterion",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/criteria/{{criterion_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "criteria", "{{criterion_id}}"]
+            },
+            "description": "Menghapus kriteria berdasarkan ID"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Alternatives",
+      "description": "Endpoints untuk mengelola alternatif",
+      "item": [
+        {
+          "name": "Get All Alternatives",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/alternatives",
+              "host": ["{{base_url}}"],
+              "path": ["api", "alternatives"]
+            },
+            "description": "Mendapatkan semua alternatif beserta nilai skor"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Alternative by ID",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/alternatives/{{alternative_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "alternatives", "{{alternative_id}}"]
+            },
+            "description": "Mendapatkan alternatif beserta nilai skor berdasarkan ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Alternative",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"code\": \"A1\",\n    \"name\": \"Alternative 1\",\n    \"scores\": [\n        {\n            \"criteria_id\": 1,\n            \"value\": 4\n        },\n        {\n            \"criteria_id\": 2,\n            \"value\": 3\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/alternatives",
+              "host": ["{{base_url}}"],
+              "path": ["api", "alternatives"]
+            },
+            "description": "Membuat alternatif baru beserta nilai skornya"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Alternative",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"code\": \"A1\",\n    \"name\": \"Alternative 1 Update\",\n    \"scores\": [\n        {\n            \"criteria_id\": 1,\n            \"value\": 5\n        },\n        {\n            \"criteria_id\": 2,\n            \"value\": 4\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/alternatives/{{alternative_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "alternatives", "{{alternative_id}}"]
+            },
+            "description": "Memperbarui alternatif beserta nilai skornya berdasarkan ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Alternative",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/alternatives/{{alternative_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "alternatives", "{{alternative_id}}"]
+            },
+            "description": "Menghapus alternatif berdasarkan ID"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Calculation",
+      "description": "Endpoints untuk perhitungan metode Weighted Product",
+      "item": [
+        {
+          "name": "Get Calculation Results",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/calculation",
+              "host": ["{{base_url}}"],
+              "path": ["api", "calculation"]
+            },
+            "description": "Mendapatkan hasil perhitungan metode Weighted Product"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "API Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/",
+          "host": ["{{base_url}}"],
+          "path": [""]
+        },
+        "description": "Memeriksa status API"
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": []
+}
