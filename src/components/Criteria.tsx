@@ -23,6 +23,8 @@ const Criteria: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [criterionToDelete, setCriterionToDelete] = useState<number | null>(null);
   const [formMode, setFormMode] = useState<"add" | "edit">("add");
   const [formData, setFormData] = useState<Omit<Criterion, "id">>({
     code: "",
@@ -118,14 +120,24 @@ const Criteria: React.FC = () => {
     }
   };
 
-  const handleDelete = async (id: number) => {
-    if (!window.confirm("Apakah Anda yakin ingin menghapus kriteria ini?")) {
-      return;
-    }
+  const handleShowDeleteModal = (id: number) => {
+    setCriterionToDelete(id);
+    setShowDeleteModal(true);
+  };
 
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
+    setCriterionToDelete(null);
+  };
+
+  const handleDelete = async () => {
+    if (criterionToDelete === null) return;
+    
     try {
-      await axios.delete(`http://localhost:5000/api/criteria/${id}`);
-      // Refresh criteria list
+      await axios.delete(`http://localhost:5000/api/criteria/${criterionToDelete}`);
+      // Close modal and refresh data
+      setShowDeleteModal(false);
+      setCriterionToDelete(null);
       fetchCriteria();
     } catch (err) {
       console.error("Error deleting criterion:", err);
@@ -216,7 +228,7 @@ const Criteria: React.FC = () => {
                             </button>
                             <button
                               className="btn btn-sm btn-outline-danger"
-                              onClick={() => handleDelete(criterion.id)}
+                              onClick={() => handleShowDeleteModal(criterion.id)}
                               title="Hapus"
                             >
                               <FontAwesomeIcon icon={faTrash} />
@@ -237,9 +249,18 @@ const Criteria: React.FC = () => {
       {showModal && (
         <div
           className="modal fade show"
-          style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
+          style={{ 
+            display: "block", 
+            backgroundColor: "rgba(0,0,0,0.5)" 
+          }}
         >
-          <div className="modal-dialog">
+          <div className="modal-dialog" style={{ 
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            minHeight: "calc(100vh - 60px)",
+            margin: "30px auto"
+          }}>
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">
@@ -341,6 +362,55 @@ const Criteria: React.FC = () => {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div
+          className="modal fade show"
+          style={{ 
+            display: "block", 
+            backgroundColor: "rgba(0,0,0,0.5)"
+          }}
+        >
+          <div className="modal-dialog" style={{ 
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            minHeight: "calc(100vh - 60px)",
+            margin: "30px auto"
+          }}>
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Konfirmasi Hapus</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={handleCloseDeleteModal}
+                ></button>
+              </div>
+              <div className="modal-body">
+                <p>Apakah Anda yakin ingin menghapus kriteria ini?</p>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={handleCloseDeleteModal}
+                >
+                  Batal
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={handleDelete}
+                >
+                  Hapus
+                </button>
+              </div>
             </div>
           </div>
         </div>
